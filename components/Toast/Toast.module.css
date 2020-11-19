@@ -9,11 +9,11 @@
   top: 12px;
   right: 12px;
   transition: transform .6s ease-in-out;
-        animation: toast-in-right .7s;
+  animation: toast-in-right .7s;
 }
 
 .bottomRight {
-  bottom: 12px;
+  bottom: 22px;
   right: 12px;
   transition: transform .6s ease-in-out;
   animation: toast-in-right .7s;
@@ -27,7 +27,7 @@
 }
 
 .bottomLeft {
-	bottom: 12px;
+	bottom: 22px;
 	left: 12px;
 	transition: transform .6s ease-in;
 	animation: toast-in-left .7s;
@@ -52,7 +52,7 @@
 }
 
 .notification:hover {
-	box-shadow: 0 0 12px #fff;
+			box-shadow: 0 0 12px #fff;
 	opacity: 1;
 	cursor: pointer
 }
@@ -70,7 +70,6 @@
 .notificationMessage {
 	margin: 0;
 	text-align: left;
-  height: 18px;
   margin-left: -1px;
   overflow: hidden;
   text-overflow: ellipsis;
