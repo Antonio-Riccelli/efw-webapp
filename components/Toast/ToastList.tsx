@@ -10,8 +10,7 @@ const ToastList = (props) => {
     setList(toastList)
   }, [toastList, list])
 
-  const onDelete = (key: Number) => {
-    const index = list.findIndex((e) => e.key === key)
+  const onDelete = (index: Number) => {
     list.splice(index, 1)
     setList([...list])
   }
@@ -36,12 +35,12 @@ const ToastList = (props) => {
   return (
     <>
       <div className={`${styles.notificationContainer} ${positionStyle}`}>
-        {list.map((toast, key) => (
+        {list.map((toast, index) => (
           <Toast
             {...toast}
-            key={key}
+            key={index}
             onDelete={() => {
-              onDelete(key)
+              onDelete(index)
             }}
           />
         ))}

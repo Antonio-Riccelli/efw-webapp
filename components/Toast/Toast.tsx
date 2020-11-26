@@ -13,7 +13,7 @@ const Toast = (props) => {
         X
       </button>
       <div className={styles.notificationImageWrapper}>
-        <img className={styles.notificationImage} src={icon} alt='' />
+        <img className={styles.notificationImage} src={icon} alt={title} />
       </div>
       <div>
         <p className={styles.notificationTitle}>{title}</p>
