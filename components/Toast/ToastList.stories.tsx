@@ -1,15 +1,7 @@
 import React from 'react'
 import ToastListComponent from './ToastList'
 
-export default {
-  title: 'Components/Toasts',
-  component: ToastListComponent,
-}
-
-const Template = (args) => <ToastListComponent {...args} />
-
-export const List = Template.bind({})
-List.args = {
+const args = {
   toastList: [
     {
       title: 'Success',
@@ -37,3 +29,7 @@ List.args = {
     },
   ],
 }
+
+export default { title: 'Components/ToastList' }
+
+export const ToastList = () => <ToastListComponent {...args} />
