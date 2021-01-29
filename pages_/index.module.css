@@ -1,5 +1,17 @@
 .searchWrap {
-  max-width: 80%;
+  max-width: 90%;
   margin: 33px auto;
   font-size: 1.2em;
+}
+
+@media (min-width: 400px) {
+  .searchWrap {
+    max-width: 80%;
+  }
+}
+
+@media (min-width: 768px) {
+  .searchWrap {
+    max-width: 42em;
+  }
 }

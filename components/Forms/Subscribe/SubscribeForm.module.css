@@ -1,0 +1,27 @@
+.newsletterForm {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.wrapperInput {
+  margin-right: 3px;
+}
+
+.newsletterEmail {
+  border-bottom: 1px dotted black;
+  max-width: 150px;
+}
+
+.newsletterButton {
+  background: transparent;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.newsletterButton:hover {
+  color: var(--elliotPrimary);
+  border: 1px solid var(--elliotPrimary);
+}

@@ -2,16 +2,21 @@
   --elliotPrimary: #72afd4;
   --elliotSecondary: #5082af;
   --elliotHover: #9cd5db;
-  --elliotVisited: #63bfce;
+  --elliotVisited: #2a6496;
+  --elliotLink: #287896;
+  --elliotLinkSubtitle: #4aacc28f;
   --dimGrey: #999;
-  --lightGrey: #f0f0f0;
+  --lighterGrey: #f0f0f0;
+  --containerBg: #f7f7f7;
   --placeholder: #ccc;
   --textColor: #444;
+  --textGreyColor: #44444494;
   --cta: #3fa2b8;
   --footerBg: #e6f6f9;
   --borderColor: #99b7bd4f;
   --lightGrey: #e8e8e8;
   --BSlink: #428bca;
+  --error: #ad081b;
   --fontCommon: 'Arial', 'Arial Bold', 'Gadget', sans-serif;
   --fontBlack: 'Arial Black', 'Arial Bold', 'Gadget', sans-serif;
   --zindex0: 0;
@@ -76,7 +81,19 @@ p {
   margin: 0;
 }
 
-/* COMMON STYLE */
+ul {
+  list-style: none;
+}
+
+.hidden-element {
+  height: 0;
+  width: 0;
+  display: none;
+}
+
+/* COMMON STYLE 
+=========================
+*/
 .main {
   max-width: 1200px;
   margin: 0 auto;
@@ -86,7 +103,18 @@ p {
   padding: 20px 0;
 }
 
-/* Site css from .NET */
+/* odometer custom style */
+.odometer {
+  color: var(--elliotPrimary);
+  font-size: 22px;
+  letter-spacing: 0.3em;
+  font-family: var(--fontCommon);
+  font-weight: 700;
+}
+
+/* ==================================================
+  Styles from .NET
+================================================== */
 .background {
   position: absolute;
   top: 0;
@@ -100,7 +128,6 @@ p {
 }
 
 .section-center {
-  padding: 0 16px;
   margin: auto;
 }
 
@@ -144,52 +171,6 @@ p {
 }
 
 /* ==================================================
-   Show More
-================================================== */
-.show-more {
-  text-align: center;
-}
-
-.show-more__title {
-  margin-bottom: 0;
-  font-size: 9px;
-}
-
-.chevron {
-  position: relative;
-  display: block;
-  height: 20px;
-  right: 10px;
-  top: -2em;
-}
-
-.show-more__link {
-  display: inline-block;
-}
-
-.show-more__link:hover {
-  text-decoration: none;
-}
-
-.chevron::before,
-.chevron::after {
-  position: absolute;
-  display: block;
-  content: "";
-  border: 10px solid transparent;
-}
-
-.chevron::before {
-  top: 0;
-  border-top-color: var(--black, black);
-}
-
-.chevron::after {
-  top: -2px;
-  border-top-color: #fff;
-}
-
-/* ==================================================
    Form styles
 ================================================== */
 .form-control {
@@ -225,6 +206,12 @@ p {
   margin-top: 2em;
 }
 
+.control-label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
 /* about page */
 .facts__text {
   font-size: 1.5vw;
@@ -247,6 +234,10 @@ p {
     background: white;
     padding-right: 20px;
     padding-left: 20px;
+  }
+
+  .odometer {
+    font-size: 26px;
   }
 }
 

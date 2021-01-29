@@ -10,26 +10,25 @@
   height: 2.8em;
   border-radius: 2em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--lightGrey);
+  border: 1px solid var(--lighterGrey);
   font-size: 18px;
 }
 
 .inputBig {
   outline: none;
   width: 100%;
-  padding: 0 40px 0 1em;
-  height: 2.8em;
+  padding: 15px 40px 15px 1em;
+  height: 3.2em;
   border-radius: 2em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--lightGrey);
-  font-size: 18px;
+  border: 1px solid var(--lighterGrey);
+  font-size: 16px;
 }
 
 .button {
   position: absolute;
   right: 20px;
-  bottom: 27%;
-  z-index: 1;
+  bottom: 20%;
   background: #fff;
   border: 0;
   margin-bottom: 0;
@@ -37,31 +36,29 @@
 }
 
 .buttonBig {
-  /* stylelint-disable */
   @extend .button;
-  /* stylelint-enable */
+
   right: 25px;
 }
 
 .autosuggestResults {
   position: absolute;
   width: calc(100% - 10%);
-  z-index: 2;
+  z-index: var(--zindex100);
   background-color: #fff;
   list-style-type: none;
   margin-top: 0;
   margin-bottom: 10px;
   margin-left: 20px;
-  border-left: 1px solid var(--lightGrey);
-  border-right: 1px solid var(--lightGrey);
-  border-bottom: 1px solid var(--lightGrey);
+  border-left: 1px solid var(--lighterGrey);
+  border-right: 1px solid var(--lighterGrey);
+  border-bottom: 1px solid var(--lighterGrey);
   border-radius: 0 0 24px 24px;
 }
 
 .autosuggestResultsBig {
-  /* stylelint-disable */
   @extend .autosuggestResults;
-  /* stylelint-enable */
+
   max-width: 39em;
 }
 
@@ -73,11 +70,11 @@
 }
 
 .autosuggestWord:hover {
-  background: var(--lightGrey);
+  background: var(--lighterGrey);
 }
 
 .highlight {
-  background: var(--lightGrey);
+  background: var(--lighterGrey);
 }
 
 .autosuggestItemIcon {

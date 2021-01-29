@@ -1,20 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Trans from 'next-translate/Trans'
 import Layout from '../components/Layout/Layout'
-import ButtonPrimary from '../components/Buttons/ButtonPrimary'
+import ButtonAddToBrowser from '../components/Buttons/ButtonAddToBrowser'
+import ContactUsForm from '../components/Forms/Contact/ContactForm'
 
 const ComponentSpan = (props) => <p className='facts__text' {...props} />
 
-function About () {
+function About() {
   const { t } = useTranslation()
 
-  useEffect(() => {
-    document.getElementById('tel').style.display = 'none'
-  }, [])
-
   return (
-    <Layout pageTitle='About us' pageDescription='Who we are - Elliot for Water' fluid>
+    <Layout pageTitle={t('about:pageTitle')} pageDescription={t('about:pageTitle')} fluid>
       <div className='about-header'>
         <p className='about-header__text about-header__text--blue'>{t('about:title1')}</p>
         <p className='about-header__text'>{t('about:title2')}</p>
@@ -52,23 +49,15 @@ function About () {
                           /* eslint-disable-next-line react/jsx-key */
                           <ComponentSpan />,
                           /* eslint-disable-next-line react/jsx-key */
-                          <a
-                            href='https://drive.google.com/drive/folders/12KXoGXsyyvbxRXDOK8BfOVbx-Xv36i9G?usp=sharing'
-                            target='_blank'
-                          />,
+                          <a href='https://drive.google.com/drive/folders/12KXoGXsyyvbxRXDOK8BfOVbx-Xv36i9G?usp=sharing' target='_blank' />,
                           /* eslint-disable-next-line react/jsx-key */
-                          <a href='https://wellfound.org.uk/' target='_blank' />
+                          <a href='https://wellfound.org.uk/' target='_blank' />,
                         ]}
                       />
                     </div>
                   </div>
-                  <div className='buttonChrome'>
-                    <ButtonPrimary
-                      big
-                      linkHref='https://chrome.google.com/webstore/detail/elliot-for-water/ddfnnfelkcabbeebchaegpcdcmdekoim'
-                    >
-                      {t('common:addToChrome')}
-                    </ButtonPrimary>
+                  <div className='cta'>
+                    <ButtonAddToBrowser />
                   </div>
                 </div>
               </div>
@@ -90,22 +79,15 @@ function About () {
                           /* eslint-disable-next-line react/jsx-key */
                           <ComponentSpan />,
                           /* eslint-disable-next-line react/jsx-key */
-                          <a
-                            href='https://drive.google.com/drive/folders/12KXoGXsyyvbxRXDOK8BfOVbx-Xv36i9G?usp=sharing'
-                            target='_blank'
-                          />,
+                          <a href='https://drive.google.com/drive/folders/12KXoGXsyyvbxRXDOK8BfOVbx-Xv36i9G?usp=sharing' target='_blank' />,
                           /* eslint-disable-next-line react/jsx-key */
-                          <a href='https://wellfound.org.uk/' target='_blank' />
+                          <a href='https://wellfound.org.uk/' target='_blank' />,
                         ]}
                       />
                     </div>
                   </div>
                   <div className='elliot-btn-group'>
-                    <a
-                      className='btn btn-primary big home-text__link home-text__chrome shadow'
-                      href='https://chrome.google.com/webstore/detail/elliot-for-water/ddfnnfelkcabbeebchaegpcdcmdekoim'
-                      target='_blank'
-                    >
+                    <a className='btn btn-primary big home-text__link home-text__chrome shadow' href='https://chrome.google.com/webstore/detail/elliot-for-water/ddfnnfelkcabbeebchaegpcdcmdekoim' target='_blank'>
                       {t('common:addToChrome')}
                     </a>
                   </div>
@@ -115,7 +97,7 @@ function About () {
           </div>
         </div>
       </section>
-      <div className='show-more show-more--top20'>
+      <div className='show-more'>
         <p className='show-more__title'>{t('about:contact_us')}</p>
         <a href='#contact-us' className='show-more__link'>
           <i className='fas fa-chevron-down show-more__icon' />
@@ -123,71 +105,7 @@ function About () {
       </div>
       <section className='section contact-us' id='contact-us'>
         <h2 className='contact-us__title'>{t('about:contact_us')}</h2>
-        <form method='post' action='/Contact/ContactUs'>
-          <div className='form-row'>
-            <div className='form-group col-md-12'>
-              <input
-                type='tel'
-                className='form-control'
-                id='tel'
-                name='tel'
-                placeholder='Telephone'
-              />
-            </div>
-          </div>
-          <div className='row'>
-            <div className='form-group col-sm-6'>
-              <input
-                type='text'
-                className='form-control'
-                id='name'
-                name='name'
-                placeholder='Name'
-                required
-              />
-            </div>
-            <div className='form-group col-sm-6'>
-              <input
-                type='email'
-                className='form-control'
-                id='email'
-                name='email'
-                placeholder='Email'
-                required
-              />
-            </div>
-          </div>
-          <div className='row'>
-            <div className='form-group col-md-12'>
-              <input
-                type='tel'
-                className='form-control'
-                id='phone'
-                name='phone'
-                placeholder='Phone Number'
-                required
-              />
-            </div>
-          </div>
-          <div className='row'>
-            <div className='form-group col-md-12'>
-              <textarea
-                className='form-control form-control--multiline'
-                id='msg'
-                name='msg'
-                placeholder='Type your message here...'
-                rows={10}
-                required
-              />
-            </div>
-          </div>
-          <div className='form-row'>
-            <div className='col-md-12'>
-              <ButtonPrimary big>{t('about:send')}</ButtonPrimary>
-            </div>
-          </div>
-          <input name='__RequestVerificationToken' type='hidden' value='' />
-        </form>
+        <ContactUsForm />
       </section>
       <style jsx>
         {`
@@ -213,7 +131,53 @@ function About () {
           }
 
           /* ==================================================
-            Learm More
+            Show More
+          ================================================== */
+          .show-more {
+            text-align: center;
+          }
+
+          .show-more__title {
+            margin-bottom: 0;
+            font-size: 12px;
+          }
+
+          .chevron {
+            position: relative;
+            display: block;
+            height: 20px;
+            right: 10px;
+            top: -2em;
+          }
+
+          .show-more__link {
+            display: inline-block;
+          }
+
+          .show-more__link:hover {
+            text-decoration: none;
+          }
+
+          .chevron::before,
+          .chevron::after {
+            position: absolute;
+            display: block;
+            content: '';
+            border: 10px solid transparent;
+          }
+
+          .chevron::before {
+            top: 0;
+            border-top-color: var(--black, black);
+          }
+
+          .chevron::after {
+            top: -2px;
+            border-top-color: #fff;
+          }
+
+          /* ==================================================
+            Learn More
           ================================================== */
           .background-wrapper {
             position: relative;
@@ -273,6 +237,10 @@ function About () {
             font-weight: bold;
           }
 
+          .flex {
+            margin-bottom: 20px;
+          }
+
           .buttonChrome {
             margin-top: 20px;
           }
@@ -291,11 +259,6 @@ function About () {
           .contact-us__title {
             margin-top: 7%;
             font-weight: 700;
-          }
-
-          .col-md-12 {
-            display: flex;
-            justify-content: flex-end;
           }
 
           /* ==================================================
@@ -317,6 +280,12 @@ function About () {
             .facts__text {
               font-size: 1.8vw;
             }
+
+            /* New style */
+            .cta {
+              margin-top: 20px;
+            }
+            /* Finish new style */
           }
 
           @media (max-width: 600px) {
@@ -335,7 +304,8 @@ function About () {
             .facts__text {
               font-size: 2vw;
             }
-            .contact-us {
+
+            .contactUs {
               margin: 15% auto;
               width: 90%;
             }

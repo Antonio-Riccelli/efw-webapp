@@ -1,44 +1,62 @@
-import React, { FC } from 'react'
+import React, { FC, useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Header from '../Header/Header'
 import HeaderHome from '../HeaderHome/HeaderHome'
 import Footer from '../Footer/Footer'
 import styles from './Layout.module.css'
-
-// prettier-ignore
+import Modal from '../Modal/Modal'
+import { UserContext } from '../../context/UserContext'
+import Cookies from 'js-cookie'
+import {
+  COOKIE_NAME_SEARCH_COUNT,
+  COOKIE_NAME_ADULT_FILTER,
+  COOKIE_NAME_LANGUAGE,
+  COOKIE_NAME_NEW_TAB,
+} from '../../helpers/_cookies'
 interface LayoutProps {
-  fluid?: boolean,
-  pageTitle: string,
-  pageDescription?: string,
+  fluid?: boolean
+  pageTitle: string
+  pageDescription?: string
   isHome?: boolean
 }
 
-const socialDescription = 'Search Engine which collects water to build well'
+export const Layout: FC<LayoutProps> = ({ children, fluid, pageTitle, pageDescription, isHome }) => {
+  const router = useRouter()
+  const { query } = router.query
+  const { userState, setNextUserState } = useContext(UserContext)
 
-export const Layout: FC<LayoutProps> = ({
-  children,
-  fluid,
-  pageTitle,
-  pageDescription,
-  isHome
-}) => {
+  useEffect(() => {
+    const searchesFromCookies = Cookies.get(COOKIE_NAME_SEARCH_COUNT)
+    const languageFromCookies = Cookies.get(COOKIE_NAME_LANGUAGE)
+    const filterFromCookies = Cookies.get(COOKIE_NAME_ADULT_FILTER)
+    const newTabFromCookies = Cookies.get(COOKIE_NAME_NEW_TAB)
+
+    setNextUserState({
+      numOfSearches: Number(searchesFromCookies) || 0,
+      language: Number(languageFromCookies) || 1,
+      adultContentFilter: Number(filterFromCookies) || 1,
+      openInNewTab: newTabFromCookies !== 'false',
+    })
+  }, [])
+
   return (
-    <div className={styles.wrapper}>
+    <div className={userState.isModalOpen ? styles.noOverflow : styles.overflow}>
       <Head>
-        <title>{pageTitle} - Elliot for Water</title>
+        <title>{isHome || query ? pageTitle : `${pageTitle} - Elliot for Water`}</title>
         {/* <!-- Search Engine --> */}
-        <meta name='description' content={pageDescription || socialDescription} />
+        <meta name='description' content={pageDescription} />
         {/* <!-- Schema.org for Google --> */}
-        <meta itemProp='name' content={`${pageTitle} - Elliot for Water`} />
-        <meta itemProp='description' content={pageDescription || socialDescription} />
+        <meta itemProp='name' content={isHome || query ? pageTitle : `${pageTitle} - Elliot for Water`} />
+        <meta itemProp='description' content={pageDescription} />
         {/* <!-- Twitter --> */}
         <meta name='twitter:card' content='summary' />
-        <meta name='twitter:title' content={`${pageTitle} - Elliot for Water`} />
-        <meta name='twitter:description' content={pageDescription || socialDescription} />
+        <meta name='twitter:title' content={isHome || query ? pageTitle : `${pageTitle} - Elliot for Water`} />
+        <meta name='twitter:description' content={pageDescription} />
         {/* <!-- Open Graph general (Facebook, Pinterest & Google+) --> */}
-        <meta name='og:title' content={`${pageTitle} - Elliot for Water`} />
-        <meta name='og:description' content={pageDescription || socialDescription} />
-        <meta name='og:url' content='https://www.elliotforwater.com/' />
+        <meta name='og:title' content={isHome || query ? pageTitle : `${pageTitle} - Elliot for Water`} />
+        <meta name='og:description' content={pageDescription} />
+        <meta name='og:url' content={process.env.NEXT_PUBLIC_BASE_URL} />
         <meta name='og:site_name' content='Elliot for Water' />
         <meta name='og:type' content='website' />
 
@@ -46,10 +64,7 @@ export const Layout: FC<LayoutProps> = ({
         <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.1/css/all.css' />
 
         {/* <!-- Styles --> */}
-        <link
-          rel='stylesheet'
-          href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css'
-        />
+        <link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css' />
 
         {/* <!-- Apple Icons --> */}
         <link rel='apple-touch-icon' sizes='180x180' href='images/metas/apple-touch-icon.png' />
@@ -67,12 +82,13 @@ export const Layout: FC<LayoutProps> = ({
         <cookie-policy />
 
         <Footer />
+
+        <Modal.Host />
       </div>
 
       {/* Scripts */}
       <script src='/lib/jquery/dist/jquery.min.js' />
       <script src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js' />
-      <script src='/js/odometer.js' />
     </div>
   )
 }

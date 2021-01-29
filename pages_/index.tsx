@@ -1,24 +1,50 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import useTranslation from 'next-translate/useTranslation'
 import Layout from '../components/Layout/Layout'
 import SearchBar from '../components/SearchBar/SearchBar'
-import ButtonPrimary from '../components/Buttons/ButtonPrimary'
+import ButtonAddToBrowser from '../components/Buttons/ButtonAddToBrowser'
 import styles from './index.module.css'
+
+let Odometer = null
+
+function getLitersOfWater(litersOfWaterPerMillisecond) {
+  // Set dates from when we started delivering water until today
+  const dateStart = new Date('03/28/2020')
+  const dateNow = new Date()
+  // Calculate the number of seconds between the two dates
+  const millisecondsDifference = dateNow.getTime() - dateStart.getTime()
+
+  // Calculate the number of liters
+  return millisecondsDifference / litersOfWaterPerMillisecond
+}
 
 const App: FC = () => {
   const { t } = useTranslation()
+  const [odometerValue, setOdometerValue] = useState<number>(0)
+
+  useEffect(() => {
+    Odometer = dynamic(import('react-odometerjs') as any, {
+      ssr: false,
+      loading: () => <p>0</p>,
+    })
+
+    const litersOfWaterPerMillisecond = 20000
+    setOdometerValue(getLitersOfWater(litersOfWaterPerMillisecond))
+
+    const timerInterval = setInterval(() => {
+      setOdometerValue(getLitersOfWater(litersOfWaterPerMillisecond))
+    }, litersOfWaterPerMillisecond)
+
+    return () => clearInterval(timerInterval)
+  }, [])
 
   return (
-    <Layout pageTitle='Home' pageDescription='Elliot for Water Homepage' isHome fluid>
+    <Layout pageTitle={t('home:pageTitle')} pageDescription={t('home:pageDescription')} isHome fluid>
       <section>
         <div className='logo-main'>
           <h1 className='logo-main__title'>
-            <img
-              className='logo-main__img'
-              src='/images/HEADER-LOGO.svg'
-              alt='Elliot For Water'
-              title='Elliot For Water'
-            />
+            <img className='logo-main__img' src='/images/HEADER-LOGO.svg' alt='Elliot For Water' title='Elliot For Water' />
           </h1>
           <p className='logo-main__subtitle'>{t('common:for_water')}</p>
         </div>
@@ -29,18 +55,18 @@ const App: FC = () => {
           <h2 className='home-text__title'>{t('home:title')}</h2>
           <p className='home-text__caption'>{t('home:caption')}</p>
           <div className='donated-water-wrapper'>
-            <div className='odometer' />
+            {Odometer !== null && (
+              <Odometer
+                // @ts-ignore
+                value={odometerValue}
+                format='(,ddd)'
+                duration={1000}
+              />
+            )}
             <p className='donated-water-text'>{t('home:liter_of_water')} </p>
           </div>
-          <div className={styles.hideMobile}>
-            <div className='elliot-btn-group'>
-              <ButtonPrimary
-                big
-                linkHref='https://chrome.google.com/webstore/detail/elliot-for-water/ddfnnfelkcabbeebchaegpcdcmdekoim'
-              >
-                {t('common:addToChrome')}
-              </ButtonPrimary>
-            </div>
+          <div className='cta'>
+            <ButtonAddToBrowser />
           </div>
           <div className='show-more'>
             <a href='#how-it-works' className='show-more__link'>
@@ -70,31 +96,19 @@ const App: FC = () => {
               <div className='carousel-inner'>
                 <div className='item active'>
                   <div className='carousel-card'>
-                    <img
-                      className='carousel-card__img'
-                      src='/images/how-it-works/search.svg'
-                      alt='Search'
-                    />
+                    <img className='carousel-card__img' src='/images/how-it-works/search.svg' alt='Search' />
                   </div>
                 </div>
 
                 <div className='item'>
                   <div className='carousel-card'>
-                    <img
-                      className='carousel-card__img'
-                      src='/images/how-it-works/give.svg'
-                      alt='Give'
-                    />
+                    <img className='carousel-card__img' src='/images/how-it-works/give.svg' alt='Give' />
                   </div>
                 </div>
 
                 <div className='item'>
                   <div className='carousel-card'>
-                    <img
-                      className='carousel-card__img'
-                      src='/images/how-it-works/change.svg'
-                      alt='Change'
-                    />
+                    <img className='carousel-card__img' src='/images/how-it-works/change.svg' alt='Change' />
                   </div>
                 </div>
               </div>
@@ -102,11 +116,11 @@ const App: FC = () => {
               {/* <!-- Left and right controls --> */}
               <a className='left carousel-control' href='#myCarousel' data-slide='prev'>
                 <span className='glyphicon glyphicon-chevron-left' />
-                <span className='sr-only'>Previous</span>
+                <span className='sr-only'>{t('common:previous')}</span>
               </a>
               <a className='right carousel-control' href='#myCarousel' data-slide='next'>
                 <span className='glyphicon glyphicon-chevron-right' />
-                <span className='sr-only'>Next</span>
+                <span className='sr-only'>{t('common:next')}</span>
               </a>
             </div>
           </div>
@@ -125,19 +139,8 @@ const App: FC = () => {
             </div>
           </div>
         </div>
-
-        <div className={styles.hideMobile}>
-          <div className='elliot-btn-group'>
-            <ButtonPrimary
-              big
-              linkHref='https://chrome.google.com/webstore/detail/elliot-for-water/ddfnnfelkcabbeebchaegpcdcmdekoim'
-            >
-              {t('common:addToChrome')}
-            </ButtonPrimary>
-            <ButtonPrimary big linkHref='/about'>
-              {t('common:learn_more')}
-            </ButtonPrimary>
-          </div>
+        <div className='cta'>
+          <ButtonAddToBrowser />
         </div>
       </section>
 
@@ -148,8 +151,6 @@ const App: FC = () => {
         <br />
         <p className='projects__caption' />
       </section>
-
-      {/* <cookie-policy /> */}
 
       <style jsx>
         {`
@@ -207,6 +208,7 @@ const App: FC = () => {
             text-align: center;
             margin: 0 auto;
             margin-bottom: 8px;
+            max-width: 85%;
           }
 
           .home-text__title {
@@ -228,8 +230,58 @@ const App: FC = () => {
           }
 
           /* ==================================================
+          Show More
+        ================================================== */
+          .show-more {
+            text-align: center;
+          }
+
+          .show-more__title {
+            margin-bottom: 0;
+            font-size: 9px;
+          }
+
+          .chevron {
+            position: relative;
+            display: block;
+            height: 20px;
+            right: 10px;
+            top: -2em;
+          }
+
+          .show-more__link {
+            display: inline-block;
+          }
+
+          .show-more__link:hover {
+            text-decoration: none;
+          }
+
+          .chevron::before,
+          .chevron::after {
+            position: absolute;
+            display: block;
+            content: '';
+            border: 10px solid transparent;
+          }
+
+          .chevron::before {
+            top: 0;
+            border-top-color: var(--black, black);
+          }
+
+          .chevron::after {
+            top: -2px;
+            border-top-color: #fff;
+          }
+
+          /* ==================================================
           How It Works section
         ================================================== */
+          .section__title {
+            font-size: 38px;
+          }
+
           .section__how-it-works {
             height: 58em;
             height: 100vh;
@@ -338,10 +390,6 @@ const App: FC = () => {
               font-size: 14px;
             }
 
-            .odometer {
-              font-size: 22px;
-            }
-
             .home-text__title {
               margin-top: 0px;
               margin-bottom: 10px;
@@ -384,6 +432,7 @@ const App: FC = () => {
 
             .home-text {
               margin-bottom: 14px;
+              max-width: 70%;
             }
 
             .home-text__title {
@@ -418,6 +467,16 @@ const App: FC = () => {
               height: auto;
               right: 0;
               top: 0;
+            }
+
+            .cta {
+              margin-top: 20px;
+            }
+          }
+
+          @media (min-width: 900px) {
+            .home-text {
+              max-width: 55%;
             }
           }
         `}
